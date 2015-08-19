@@ -14,7 +14,7 @@
 
     if (session.getAttribute("userid")==null || (session.getAttribute("level").toString().equals("2") || session.getAttribute("level").toString().equals("5"))) {
       
-        response.sendRedirect("index.jsp");
+//        response.sendRedirect("index.jsp");
            } 
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -82,16 +82,16 @@
 //        alert(str1+":::    "+str2);
           if(str1===str2){
               $("#notification").html("SORRY: M&E email is not set. Please<a href='set_email.jsp' target='blank'>Click Here</a> to set the mail.");
-            $("#send").val("No Mail Set");
-//            $("#send").hide();
-           $("#send").prop("disabled","true");
+//            $("#send").val("No Mail Set");
+////            $("#send").hide();
+//           $("#send").prop("disabled","true");
            $("#notification").prop("style","background-color:red;");  
           }
           else{
           $("#notification").html(data);
-             $("#send").val("Create Backup");
-             $("#send").show(); 
-           $("#send").removeprop("disabled","true");
+//             $("#send").val("Create Backup");
+//             $("#send").show(); 
+//           $("#send").removeprop("disabled","true");
            $("#notification").removeprop("style","");
           }
          
@@ -148,9 +148,23 @@
       dataType:"html",
       success:function(data){
       $("#connections").html(data);  
-      }
+          if(data.contains("red")){
+//          there is net
+$("#send").prop("disabled",true);
+$("#send").val("Error : No internet !");
+$("#send").css("color","black");
+$("#send").css("background","red");
+       }
+       else{
+
+$("#send").val("Create Back up");
+$("#send").css("background","white");
+$("#send").css("color","black");
+$("#send").removeAttr("disabled");
+       }
+    }
       }); 
-//      alert("loader called");
+     
       loader();
             }
             </script>
@@ -179,11 +193,20 @@
         
         
         <div id="container"  style="height: auto;">
-
-<%if (session.getAttribute("level").toString().equals("1")){%>
+ <% if (session.getAttribute("level")!=null){%>
+       <%if (session.getAttribute("level").toString().equals("2")){ %>
+<%@include file="/menu/user.jsp" %>
+<%} else if (session.getAttribute("level").toString().equals("1")){%>
 <%@include file="/menu/super_admin.jsp" %>
 <%} else if (session.getAttribute("level").toString().equals("3")){%>
 <%@include file="/menu/Officer.jsp" %>
+<%} else if (session.getAttribute("level").toString().equals("5")){%>
+<%@include file="/menu/guest_menu.jsp" %>
+<%}} else{%>
+<%@include file="/menu/guest_menu.jsp" %>
+<br><br>
+After creating data back up, Click <a href="index.jsp">here to Log in</a> and access all system resources.
+<br>
 <%}%>
             <h3 style="text-align: center; background-color: #d6b4eb;">SEND DATA BACK UP VIA MAIL.<img src="images/help.png" id="opener" title="Click Here to view Help For this Page." alt=" Help Image " style=" width: 40px; height: 40px;"></h3>
 
@@ -241,7 +264,7 @@
                     <form action="BackUpData" method="post" style="height:90px;">
                         <br/>
                         <input type="hidden" name="src" value="user">
-                       <input type="submit" value="Send Back up" class="tooltip" style="height:50px;" >
+                       <input type="submit" id="send" value="Checking ..." disabled="true" class="tooltip" style="height:50px;" >
                     </form>
               
               <p id="notifier" hidden="true"><font color="red" style="text-align:center;"><b>Before Creating any data back up ensure :</b></font> <br>

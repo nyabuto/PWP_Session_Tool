@@ -33,14 +33,14 @@ public ResultSet rst3,rst4,rst5,rst1,rst,rst6,rts7;
                 passw = conn.dbsetup[3];
 }
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-                 connx = DriverManager.getConnection("jdbc:mysql://"+conn.dbsetup[0]+"/pwp_partner",conn.dbsetup[2], ""+passw+"");
+                 connx = DriverManager.getConnection("jdbc:mysql://"+conn.dbsetup[0]+"/pwp_temp",conn.dbsetup[2], ""+passw+"");
                  stt = connx.createStatement();
                 stt1 = connx.createStatement();
                 stt2 = connx.createStatement();
                 stt3 = connx.createStatement();
                 stt4 = connx.createStatement();
                 stt5 = connx.createStatement();
-       System.out.println("database : pwp_partner host : "+conn.dbsetup[0]+" user : "+conn.dbsetup[2]+" password :   "+passw);
+       System.out.println("database : pwp_temp host : "+conn.dbsetup[0]+" user : "+conn.dbsetup[2]+" password :   "+passw);
     }
     catch(Exception e){
       Logger.getLogger(dbConn4.class.getName()).log(Level.SEVERE, null, e);  

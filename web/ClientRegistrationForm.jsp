@@ -33,7 +33,7 @@
 <!-- You can add more layouts if you want -->
 <!--WIZARD-->
 <script type="text/javascript" src="js_wiz/jquery.smartWizard.js"></script>
-<script type="text/javascript" src="js_wiz/validateSteps.js"></script>
+<script type="text/javascript" src="js_wiz/validator.js"></script>
 
 <script type="text/javascript">
    
@@ -128,7 +128,7 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
       $("#existing_group").hide();
       $("#new_provider").hide();
       $("#existing_provider").hide();
-      
+      $("#receive_message").hide();
             $.ajax({
                url:"load_County",
                type:"post",
@@ -140,7 +140,7 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
            });
 //          LOAD ALL DISTRICTS===================================== 
            $("#county").change(function(){
-             
+             load_partner();
         var partner_id=$("#partner_name") .val();
               county_id= $("#county").val();
               $.ajax({
@@ -237,9 +237,11 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
               
               if(ed_status=="yes"){
               $("#grouper").show();
+              $("#receive_message").show();
               }
               else if (ed_status=="no"){
               $("#grouper").hide();
+              $("#receive_message").hide();
               $("#new_group").hide(); 
                $("#existing_group").hide();  
               }
@@ -257,7 +259,7 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
               
               if(ed_status=="yes"){
               $("#new_group").hide();
-               $("#existing_group").show();
+               $("#existing_group").show();p
               }
               else if (ed_status=="no"){
                 $("#new_group").show();
@@ -475,6 +477,29 @@ $( "#approval_date" ).datepicker({changeMonth: true, changeYear: true, yearRange
 //        }
 //    });    
     });
+    
+    function load_partner(){
+var county=document.getElementById("county").value;
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("partner_name").innerHTML=xmlhttp.responseText;
+$('select').select2();
+}
+}
+xmlhttp.open("POST","load_partners?county="+county,true);
+xmlhttp.send();
+}
+
     </script>
       <script src="jBox/jBox.js"></script>
     <!--<script src="jBox/jBox.min.js"></script>-->
@@ -995,6 +1020,15 @@ $(document).ready(function(){
                 </select></td>
             </tr>
             
+            <tr id="receive_message">
+            <td>How does this client receive messages? </td>
+           <td><select name="client_messages" id="client_messages" required class="textbox2" title="Click to choose if the client receives messages either in a group or as individual." style="border-color: green; width:300px;">
+                   <option value=""></option>
+                   <option value="yes">Receive message in a group.</option>
+                    <option value="no">Receive message as an individual.</option>
+                    </select></td>
+            </tr>
+            
             <tr id="grouper">
             <td>Does the group exist in the system or is it a new group? <font color="red">*</font>  </td>
             <td><select name="group_status" id="group_status" title="Click here to select if it is <b>an existing group</b> or <b>a new group</b>.<br>(<font color='red'>This field is required.</font>)" class="textbox2" style="border-color: green; width:300px;">
@@ -1128,7 +1162,7 @@ $(document).ready(function(){
             <table style="width: 100%">
            <tr>
            <td>Registration date <font color="red">*</font>  <font color="red">(mm/dd/yyyy)</font> :  </td>
-         <td><input type="text" name="registration_date" title="<font color='red'>NOTE : </font> This field is required.<br> Click to select the date when the client was registered." autocomplete="off" id="registration_date" class="textbox" style="border-color: green; width:120px;"></td>
+         <td><input type="text" name="registration_date" readonly="true" title="<font color='red'>NOTE : </font> This field is required.<br> Click to select the date when the client was registered." autocomplete="off" id="registration_date" class="textbox" style="border-color: green; width:120px;"></td>
             </tr>
            <tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr> 
             <tr>
@@ -1145,9 +1179,9 @@ $(document).ready(function(){
              </datalist> 
              </tr>
             <tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>
-            <tr>
+            <tr>i
                 <td>Approval Date <font color="red">*</font>  <font color="red">(mm/dd/yyyy)</font>  :  </td>
-         <td><input type="text" name="approval_date" autocomplete="off" id="approval_date" class="textbox" style="border-color: green; width:120px;" title="<font color='red'>NOTE : </font> This field is required.<br>Enter the date when this registration form was approved."></td>
+         <td><input type="text" name="approval_date" readonly="true" autocomplete="off" id="approval_date" class="textbox" style="border-color: green; width:120px;" title="<font color='red'>NOTE : </font> This field is required.<br>Enter the date when this registration form was approved."></td>
             </tr>
             
             </table>                        			

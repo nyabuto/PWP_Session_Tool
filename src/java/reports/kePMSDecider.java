@@ -45,6 +45,22 @@ String partner_id,nextpage,year,period;
     period=request.getParameter("period");
     session.setAttribute("period", period);
     }
+    else if(nextpage.equals("Reached_OthersMessages")){
+    period=request.getParameter("period").trim();
+        System.out.println("period passed : "+period);
+    if(period.equals("01-03")){period="1";}
+    else if(period.equals("04-06")){period="2";}
+    else if(period.equals("07-09")){period="3";}
+    else if(period.equals("10-12")){period="4";}
+    else{
+      period="0";  
+    }
+        System.out.println("period is : "+period);
+        
+    session.setAttribute("period", period);   
+    }
+    
+    
    System.out.println("next page is : "+nextpage);
            
     response.sendRedirect(nextpage);

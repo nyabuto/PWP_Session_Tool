@@ -869,6 +869,10 @@
         <servlet-name>Reached_OthersMessages</servlet-name>
         <servlet-class>reports.Reached_OthersMessages</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>checkLock</servlet-name>
+        <servlet-class>pwp.checkLock</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>add_clerk</servlet-name>
         <url-pattern>/add_clerk</url-pattern>
@@ -1736,6 +1740,10 @@
     <servlet-mapping>
         <servlet-name>Reached_OthersMessages</servlet-name>
         <url-pattern>/Reached_OthersMessages</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkLock</servlet-name>
+        <url-pattern>/checkLock</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>900000</session-timeout>

@@ -49,35 +49,29 @@ returned=true;
         }
        $(document).ready(function(){
            $("#header").hide();
+            $("#form").hide();
     $.ajax({
         url:"BackUpReminder",
         type:"post",
         dataType:"html",
         success:function(data){
+             $("#form").hide();
             var res=data;
             var len=parseInt(res.length);
             if(res<=2){
                  $("#header").hide();
+                 $("#ifdata").val("");
             }
             else{
+                $("#ifdata").val("available");
                 $("#header").show();
-//                $("#header").html("<div class=\"ui-widget\" style=\"width:1200px; margin-left: -140px;\" ><div class=\"ui-state-error ui-corner-all\" style=\"padding: 0 .7em;\"><p><span class=\"ui-icon ui-icon-alert\" style=\"float: left; margin-right: .3em;\"></span><p style=\"text-align: center\" id=\"reminder\"></p></div>");
-//             $("#content").hide();
              $("#reminder").html(data);
-//             $("#header").animate({'marginTop':"+=100px"});
-//             $("#header").effect( "shake",{times:4,direction:'left',distance:20}, 10000 );
-//             $("#header").delay(4000).fadeIn();
-//             $("#header").animate({'marginTop':"-=100px"});
-//$("#header").html("");
-//     setInterval(function(){  $("#content").show(5000); }, 10000);
-            
-//             $("#header").hide(2000);
             }
         }
     });
     
           $.ajax({
-        url:"update_lockDate",
+        url:"checkLock",
         type:"post",
         dataType:"html"
     });
@@ -88,12 +82,12 @@ returned=true;
         dataType:"html"
     });
     
-      $.ajax({
-        url:"UnEditedClients",
-        type:"post",
-               data:"",
-        dataType:"html"
-    });
+//      $.ajax({
+//        url:"UnEditedClients",
+//        type:"post",
+//               data:"",
+//        dataType:"html"
+//    });
 //      $.ajax({
 //               url:"updateKePMS",
 //               type:"post",
@@ -104,6 +98,58 @@ returned=true;
            
        });
         </script>
+        
+        <script type="text/javascript">
+            function loader(){
+              setTimeout(function(){ 
+          loaderDataConnection();
+      }, 3000);
+            }
+            
+            function loaderDataConnection(){
+             $.ajax({
+      url:"checkConnections" ,
+      type:"post",
+      dataType:"html",
+      success:function(data){
+      $("#connections").html(data);  
+//       alert("loader called "+data);
+         if(data.contains("red")){
+$("#network").val("");
+       }
+       else{
+           $("#network").val("available");
+}
+      }
+      });
+      var network,ifdata;
+     network=$("#network").val().trim(); 
+     ifdata=$("#ifdata").val().trim();
+//     alert("if"+ifdata+"data");
+      if(ifdata.trim()==="available"){
+ if(network==="available"){
+    $("#backupNotifier").show(); 
+   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br> 1. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> 2. Create data back up.<br><br>")  ;
+ $("#form").hide();
+                }
+                else{
+    $("#backupNotifier").show(); 
+   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br>1. Please connect to the internet.<br><br> 2. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> 3. Create data back up.<br><br>")  ;
+ $("#form").hide();
+                }
+}
+else{
+//    alert("called");
+ $("#form").show();
+$("#backupNotifier").hide();
+}
+
+      loader();
+            }
+            </script>
+            
+            
+            
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
   <script src="jBox/jBox.js"></script>
     <!--<script src="jBox/jBox.min.js"></script>-->
@@ -139,7 +185,7 @@ setInterval(function(){update();}, 100);
 }
        </script>
     </head>
-    <body onload="checker();">
+    <body onload="checker();loaderDataConnection();">
         <div id="container" style=" height: auto;">
 <div id="header">
                 <div class="ui-widget" style="width:1200px; margin-left: -140px;" >
@@ -158,8 +204,9 @@ setInterval(function(){update();}, 100);
                     <img src="images/index_img1.JPG" width="700px" alt="PWP System" align="centre"
                                                style="position: relative; top:50px; left: 250px; height: 130px;"/>
                                               
-                       <div style="position: relative; top: 100px; left: 250px;">                                       
-                       <form action="login" method="post" onsubmit="return BrowserChecker();">
+                       <div style="position: relative; top: 100px; left: 250px;"> 
+                           <div id="backupNotifier"></div>
+                       <form action="login" method="post" id="form" onsubmit="return BrowserChecker();">
                        <p align="center">Login</p>
                         <table style="margin-left: 190px; width: 100px;" >
                            
@@ -177,6 +224,8 @@ setInterval(function(){update();}, 100);
                             </tr>
                               <tr><td></td> </tr> <tr><td></td> </tr> <tr><td></td> </tr>
                             <tr>
+                            <input type="text" name="ifdata" hidden="true" id="ifdata" value="">
+                            <input type="text" name="network" hidden="true" id="network" value="">
                                 <td style="text-align: right"> </td>
                                 <td style="text-align: center"><input type="submit" class="submit" value="Log In"/>
                                    
@@ -191,7 +240,7 @@ setInterval(function(){update();}, 100);
                             </tr>
                             
                         </table>
-                       <p style="color: #0000ff">PWP System. Version 1.3 Last Updated 4th August 2015.</p>
+                       <p style="color: #0000ff">PWP System. Version 1.3 Last Updated 20th August 2015.</p>
                        <h4>
                         <%
                             if (session.getAttribute("error_login") != null)  { %>

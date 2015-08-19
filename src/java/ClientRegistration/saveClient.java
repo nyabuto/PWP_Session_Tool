@@ -36,6 +36,7 @@ String pfname,pmname,plname,pnationalID,pmobileNO,timestamp;
 String group_status,provider_status,dic_id;
 String existingGroups;
 String cfullname,cfname,cmname,clname,ward_id;
+String linked_groupid,ifLinked;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
       session=request.getSession();
@@ -47,7 +48,8 @@ String cfullname,cfname,cmname,clname,ward_id;
  has_group=group_id=provider_id=partner_id="";
  hiv_year=art_status=hf_id=ccc_no="";
 registration_date=approved_by=designation=approval_date="";
-  fullname=status=""; 
+  fullname=status="";
+  linked_groupid=ifLinked="";
         IdGenerator IG = new IdGenerator();
   timestamp=IG.toDay();
   client_id=IG.current_id();
@@ -71,7 +73,8 @@ registration_date=approved_by=designation=approval_date="";
        if(under_18.equals("")){under_18="0";}
        if(ovc_children.equals("")){ovc_children="0";}
        
-       has_group=request.getParameter("linked_to_group");
+       has_group=request.getParameter("client_messages");
+       ifLinked=request.getParameter("linked_to_group");
        group_id=request.getParameter("group_name");
        group_status=request.getParameter("group_status");
        provider_status=request.getParameter("provider_status");
@@ -79,6 +82,7 @@ registration_date=approved_by=designation=approval_date="";
        partner_id=request.getParameter("partner_name");
        ward_id=request.getParameter("ward");
        if(has_group.equals("no")){ group_id="0";}
+       if(ifLinked.equals("no")){linked_groupid="";group_id="0";}else{linked_groupid=request.getParameter("group_name");}
        
       hiv_year=request.getParameter("year_confirmed");
       art_status=request.getParameter("art_status");
@@ -104,7 +108,7 @@ registration_date=approved_by=designation=approval_date="";
          cfullname=cfname=cmname=clname="";
          
          
-      if(has_group.equals("yes")){
+      if(ifLinked.equals("yes")){
      if(group_status.equals("no")){
       String checkGROUP="SELECT group_id FROM groups WHERE group_name=?";
       conn.pst=conn.conn.prepareStatement(checkGROUP);
@@ -112,13 +116,18 @@ registration_date=approved_by=designation=approval_date="";
       
       conn.rs=conn.pst.executeQuery();
       if(conn.rs.next()==true){
-      group_id=conn.rs.getString(1);
+       group_id=conn.rs.getString(1);
+      linked_groupid=group_id;
+       if(has_group.equals("no")){ group_id="0";}
        System.out.println("group exist===================="+group_id);
       }
       else{
            System.out.println("adding a new group====================");
           IdGenerator IGrp = new IdGenerator();
-          group_id=IGrp.current_id();
+         group_id=IGrp.current_id();
+         linked_groupid=group_id;
+         if(has_group.equals("no")){ group_id="0";}
+          
           String addGroup="INSERT INTO groups (group_id,group_name,partner_id,district_id,nhf_id,location,year_formed,timestamp)"
                   + "VALUES(?,?,?,?,?,?,?,?)";
           conn.pst=conn.conn.prepareStatement(addGroup);
@@ -250,8 +259,8 @@ registration_date=approved_by=designation=approval_date="";
             String add_Client="INSERT INTO personal_information"
 + "(client_id,fname,mname,lname,district_id,location,national_id,mobile_no,gender,dob,marital_status,"
 + "employment_status,education_level,under_18s,ovc_children,group_id,provider_id,partner_id,"
-+ "hiv_year,art_status,hf_id,ccc_no,registration_date,approved_by,designation,approval_date,timestamp,dic_id,ward_id)"
-+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
++ "hiv_year,art_status,hf_id,ccc_no,registration_date,approved_by,designation,approval_date,timestamp,dic_id,ward_id,linked_group)"
++ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
           conn.pst=conn.conn.prepareStatement(add_Client);
           conn.pst.setString(1, client_id);
           conn.pst.setString(2, fname);
@@ -282,6 +291,7 @@ registration_date=approved_by=designation=approval_date="";
           conn.pst.setString(27, timestamp);
           conn.pst.setString(28, dic_id);
           conn.pst.setString(29, ward_id);
+          conn.pst.setString(30, linked_groupid);
           conn.pst.executeUpdate();
           
         fullname=fname+" "+mname+" "+lname;   

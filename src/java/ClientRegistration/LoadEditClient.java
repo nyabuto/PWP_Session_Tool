@@ -38,6 +38,7 @@ String district,county,county_id="";
 String genderStatus,employment,education,marital;
 String group_name,hasgroup,partner,provider,year_reg,art,dicid,dic,ward_id,selectedWard;
 String hiv_year;
+String linked_groupid,ifLinked;
 Calendar cal=Calendar.getInstance();
 ArrayList data = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,6 +48,8 @@ ArrayList data = new ArrayList();
        data.clear();
         int year=cal.get(Calendar.YEAR);  
     
+        linked_groupid=ifLinked="";
+        
        client_id=request.getParameter("client_id");
 //       client_id="1886011833319";
        String getDetails="SELECT * FROM personal_information WHERE client_id='"+client_id+"'";
@@ -81,6 +84,7 @@ ArrayList data = new ArrayList();
          approval_date=conn.rs.getString("approval_date");  
          dicid=conn.rs.getString("dic_id");
          selectedWard=conn.rs.getString("ward_id");
+         linked_groupid=conn.rs.getString("linked_group");
         ClientEditor CE = new ClientEditor();
         district="";
         county="";
@@ -91,6 +95,14 @@ ArrayList data = new ArrayList();
         
         
         
+        if(linked_groupid==null){
+         linked_groupid="";   
+        }
+            if(linked_groupid.equals("") && !group_id.equals("0")){
+             linked_groupid= group_id;  
+            }
+        
+        
         county="<option value=\"\">Choose County</option>";
         district="<option value=\"\">Choose District</option>";
         genderStatus="<option value=\"\">Gender</option>";
@@ -99,6 +111,7 @@ ArrayList data = new ArrayList();
         education="<option value=\"\">Educational level</option>";
         group_name="<option value=\"\">Choose group</option>";
         hasgroup="<option value=\"\">Choose status</option>";
+        ifLinked="<option value=\"\">Choose status</option>";
         partner="<option value=\"\">Choose partner</option>";
         provider="<option value=\"\">Choose provider</option>";
         year_reg="<option value=\"\">Year</option>";
@@ -190,8 +203,17 @@ ArrayList data = new ArrayList();
              partner+="<option value=\""+conn.rs1.getString(1)+"\" >"+conn.rs1.getString(2)+"</option>";
          }
       }
+    
+      if(group_id.equals("0")){
+    ifLinked+="<option value=\"yes\">Receive message in a group.</option>" ;
+    ifLinked+="<option value=\"no\" selected>Receive message as an individual.</option>";
+   }
+   else{
+    ifLinked+="<option value=\"yes\" selected>Receive message in a group.</option>" ;
+    ifLinked+="<option value=\"no\">Receive message as an individual.</option>";   
+   }
       
-   if(group_id.equals("0")){
+   if(linked_groupid.equals("")){
     hasgroup+="<option value=\"yes\">Yes</option>" ;
     hasgroup+="<option value=\"no\" selected>No</option>";
    }
@@ -204,7 +226,7 @@ ArrayList data = new ArrayList();
       conn.rs1=conn.st1.executeQuery(getGroup);
       while(conn.rs1.next()){
           System.out.println("group id : "+conn.rs1.getString(1)+" group name : "+conn.rs1.getString(2));
-     if(conn.rs1.getString(1).equals(group_id)){
+     if(conn.rs1.getString(1).equals(linked_groupid)){
          group_name+="<option value=\""+conn.rs1.getString(1)+"\" selected>"+conn.rs1.getString(2)+"</option>";
      }     
      else{
@@ -327,6 +349,7 @@ ArrayList data = new ArrayList();
         CE.setEmployment(employment);
         CE.setGenderStatus(genderStatus);
         CE.setHas_group(hasgroup);
+        CE.setIfLinked(ifLinked);
         CE.setGroup_name(group_name);
         CE.setMarital(marital);
         CE.setProvider(provider);

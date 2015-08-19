@@ -20,14 +20,24 @@ and open the template in the editor.
  
 <li class='has-sub'><a href='#'><span class="btn_header">Reports</span></a>
       <ul>
-         <li class='has-sub'><a href='#'><span>Excel Reports</span></a>
-             <ul>
-               <li><a href='partner_completion_rate.jsp'><span>Partner(s) completion rate</span></a></li>
-
-            </ul>
+       <li class='has-sub'><a href='#'><span>1. Custom reports</span></a>
+         <ul>
+          <li class='has-sub'><a href='enrollments.jsp'><span>1.Enrollments Report</span></a></li>
+          <li class='has-sub'><a href='CustomRawData.jsp'><span>2. Messages Given</span></a></li>
+         <!--<li class='has-sub'><a href='servicesProvided.jsp'><span>3. Services Provided</span></a></li>-->
+         </ul>
+         </li> 
+         <li class='has-sub'><a href='rawData.jsp'><span>2. Raw Data</span></a></li>
+         <li class='has-sub'><a href='kePMS.jsp'><span>3. KePMS Report</span></a></li>
+         <li class='has-sub'><a href='#'><span>4. Other Reports.</span></a>
+         <ul>
+         <li class='has-sub'><a href='completed13Messages'><span>Attended 13 messages report.</span></a></li>
+         <li class='has-sub'><a href='clientsNotReached'><span>Clients not achieved report.</span></a></li>
+         </ul>
          </li>
-
+         
       </ul>
+     
    </li>
   
     <li><a href='help/PWP Presentation Slides.pdf'>Help</a></li>

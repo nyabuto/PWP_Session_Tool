@@ -126,7 +126,7 @@ xmlhttp.send();
 function filter_districts(district){
 
 var dist=district.value;    
-
+load_partner();
 // window.open("districtchooser?county="+dist.value);     
 var xmlhttp;    
 if (dist=="")
@@ -158,9 +158,8 @@ xmlhttp.open("POST","district_loader?county_id="+dist,true);
 xmlhttp.send();
 }//end of filter districts
 
-    
-        function load_partner(){
-
+    function load_partner(){
+var county=document.getElementById("county").value;
 if (window.XMLHttpRequest)
 {// code for IE7+, Firefox, Chrome, Opera, Safari
 xmlhttp=new XMLHttpRequest();
@@ -174,11 +173,13 @@ xmlhttp.onreadystatechange=function()
 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 {
 document.getElementById("partner").innerHTML=xmlhttp.responseText;
+$('select').select2();
 }
 }
-xmlhttp.open("POST","load_partners",true);
+xmlhttp.open("POST","load_partners?county="+county,true);
 xmlhttp.send();
-}   
+}
+
   $(document).ready( function (){
      var part,dist; 
     <%if(session.getAttribute("partnerIDAssess")!=null && session.getAttribute("districtIDAssess")!=null ){%>  

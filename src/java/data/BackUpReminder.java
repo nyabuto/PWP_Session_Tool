@@ -64,7 +64,7 @@ int days,maxid,foundClients,foundRegister;
           
           
           
-          if(days>=5){
+          if(days>=3){
 //             CHEK IF DATA HAS BEEN ENTERED=================================
               String checkClients="SELECT COUNT(client_id) FROM clients WHERE STR_TO_DATE(timestamp,'%Y-%m-%d')"
                       + "BETWEEN STR_TO_DATE('"+timestamp+"','%Y-%m-%d') AND STR_TO_DATE('"+today+"','%Y-%m-%d') ";
@@ -109,7 +109,9 @@ if(conn.pst!=null){conn.pst.close();}
 if(conn.pst!=null){conn.pst.close();}
                 if(conn.conn!=null){conn.conn.close();}
           System.out.println("maxid : "+maxid+" timestamp : "+timestamp+" days : "+days+" foud clients : "+foundClients+" found register : "+foundRegister);
-            out.println(status);
+           
+//           status=""; 
+          out.println(status);
         } finally {
             out.close();
         }

@@ -36,8 +36,8 @@
 <link href="styles_wiz/smart_wizard_vertical.css" rel="stylesheet" type="text/css">
 <!--<script type="text/javascript" src="js_wiz/jquery-2.0.0.min.js"></script>-->
 <script type="text/javascript" src="js_wiz/jquery.smartWizard.js"></script>
+<script type="text/javascript" src="js_wiz/validator.js"></script>
 
-<script type="text/javascript" src="js_wiz/validateSteps.js"></script>
 <script type="text/javascript">
    
     $(document).ready(function(){
@@ -124,9 +124,11 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
       if(group_status=="no"){
        $("#existing_group").hide();
        $("#grouper").hide();
+        $("#receive_message").hide();
       }
 //          LOAD ALL DISTRICTS===================================== 
            $("#county").change(function(){
+               load_partner();
           var partner_id=$("#partner_name") .val();    
         county_id= $("#county").val();
               $.ajax({
@@ -139,7 +141,7 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
                 $("#district").select2(); 
                } 
            }); 
-             
+       
        
         if(partner_id!="" && county_id!=""){
         $.ajax({
@@ -200,10 +202,12 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
               
               if(ed_status=="yes"){
               $("#grouper").show();
+              $("#receive_message").show();
               $("#existing_group").show();
               }
               else if (ed_status=="no"){
               $("#grouper").hide();
+              $("#receive_message").hide();
               $("#new_group").hide(); 
                $("#existing_group").hide();  
               }
@@ -391,7 +395,7 @@ $( "#dob" ).datepicker({changeMonth: true, changeYear: true, yearRange: '1900:'+
        $( "#registration_date" ).datepicker({changeMonth: true, changeYear: true, yearRange: ''+prev_year+':'+currentYear+'', dateFormat: 'yy-mm-dd',minDate: OrderedMinDate,maxDate: new Date()});
         }
     });
-    
+     });
     
     
         $("#registration_date").change(function(){
@@ -430,6 +434,29 @@ $( "#approval_date" ).datepicker({changeMonth: true, changeYear: true, yearRange
         
     });
     });
+    
+    function load_partner(){
+var county=document.getElementById("county").value;
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("partner_name").innerHTML=xmlhttp.responseText;
+$('select').select2();
+}
+}
+xmlhttp.open("POST","load_partners?county="+county,true);
+xmlhttp.send();
+}
+
     </script>
     <script src="jBox/jBox.js"></script>
     <!--<script src="jBox/jBox.min.js"></script>-->
@@ -690,6 +717,13 @@ legend {
            <td><select name="linked_to_group" id="linked_to_group" class="textbox2" title="Click here to change if this client is linked to a support group or not.<br>(<font color='red'>This field is required.</font>)" style="border-color: green; width:300px;">
                     ${editClientData.has_group}
                 </select></td>
+            </tr>
+            
+            <tr id="receive_message">
+            <td>How does this client receive messages? </td>
+           <td><select name="client_messages" id="client_messages" required class="textbox2" title="Click to choose if the client receives messages either in a group or as individual." style="border-color: green; width:300px;">
+                 ${editClientData.ifLinked}
+                    </select></td>
             </tr>
             
             <tr id="grouper">

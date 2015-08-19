@@ -24,7 +24,15 @@ String pfname,pmname,plname,pnationalID,pmobileNO,timestamp;
 String genderStatus,employment,education,marital;
 String district,county,county_id="";
 String year_reg,dic,ward_id;
+String ifLinked;
 
+    public String getIfLinked() {
+        return ifLinked;
+    }
+
+    public void setIfLinked(String ifLinked) {
+        this.ifLinked = ifLinked;
+    }
     public String getWard_id() {
         return ward_id;
     }

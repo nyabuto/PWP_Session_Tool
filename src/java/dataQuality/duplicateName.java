@@ -43,6 +43,7 @@ String data,national_id,ccc_no,mobile_no,dob;
         System.out.println("level:   "+session.getAttribute("level"));
          System.out.println("here is the data that has been parsed by ajax   :    "+datatype);
          if(!datatype.equals("")){
+             System.out.println("entered here : ");
           pos=0;
           data="<thead>"
                   + ""
@@ -150,7 +151,7 @@ String data,national_id,ccc_no,mobile_no,dob;
             else   if(datatype.equals("4")){
      String checker="SELECT COUNT(client_id) FROM personal_information WHERE ccc_no!='' && ccc_no='"+ccc_no+"' && client_id!='"+clientid+"'";
      conn.rs1=conn.st4.executeQuery(checker);
-      }
+            }
             
                   else   if(datatype.equals("5")){
      String checker="SELECT COUNT(client_id) FROM personal_information WHERE national_id!='' && national_id='"+national_id+"' && client_id!='"+clientid+"'";

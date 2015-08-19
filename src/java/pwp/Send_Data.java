@@ -95,7 +95,7 @@ public String filenames,cu,dates,computername,senderofmail;
 
         messageBodyPart.setDataHandler(new DataHandler(source));
 
-        messageBodyPart.setFileName("PWP_V1_04_AUGUST_2015_"+county.trim()+"_"+partner.trim()+"_Data_"+createdOn.trim()+".sql");
+        messageBodyPart.setFileName("PWP_V1_20_AUGUST_2015_"+county.trim()+"_"+partner.trim()+"_Data_"+createdOn.trim()+".sql");
         multipart.addBodyPart(messageBodyPart);
 
         message.setContent(multipart);

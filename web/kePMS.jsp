@@ -69,7 +69,7 @@
                $("#nextpage1").html("<option value=\"\">Choose report type</option><option value=\"kePMSnew\">Clients reached per Partner</option><option value=\"kePMSCounty\">Clients Reached per County</option><option value=\"kePMSDIC\">Reached per DIC</option><option value=\"kePMSGroup\">Reached per Group</option>");
                $("#nextpage2").html("<option value=\"\">Choose report</option><option value=\"kePMSServices\">Services Provided per Partner</option><option value=\"kePMSDICServices\">Services Provided per DIC</option><option value=\"kePMSGroupServices\">Services Provided per Group</option>") ;
            var reportType=$("#nextpage").val();   
-           if(reportType=="achieved"){
+           if(reportType==="achieved"){
          $("#reporter").hide();
           $("#partner").removeAttr("required");
            $("#achieved1").show();
@@ -77,13 +77,24 @@
            $("#perioder").hide();
            $("#period").removeAttr("required");
            }
-          else if(reportType=="services"){
+          else if(reportType==="services"){
              $("#reporter").hide();
             $("#partner").removeAttr("required");
            $("#services1").show();
            $("#achieved1").hide();
             $("#perioder").show();
              $("#period").prop("required",true);
+           }
+           else if(reportType==="Reached_OthersMessages"){
+//            Other messages
+           $("#services1").hide();
+           $("#achieved1").hide();
+           $("#reporter").hide();
+           $("#perioder").show();
+           $("#partner").removeAttr("required");
+           $("#period").prop("required",true);
+            $("#nextpage1").removeAttr("required");
+            $("#nextpage2").removeAttr("required");
            }
           else{
              $("#perioder").hide();
@@ -201,6 +212,7 @@
     <select name="nextpage" id="nextpage" style="width:250px;" required class="textbox2">
         <option value="">Choose report type</option>
         <option value="achieved">Clients Reached Report</option>
+        <option value="Reached_OthersMessages">Clients Reached with Other Messages</option>
         <option value="services">Services Provided Report</option>
 
     </select>  

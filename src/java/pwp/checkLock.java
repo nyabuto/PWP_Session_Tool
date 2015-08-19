@@ -22,9 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Geofrey Nyabuto
+ * @author Nyabuto Geofrey
  */
-public class update_lockDate extends HttpServlet {
+public class checkLock extends HttpServlet {
 HttpSession session;
 String currentDate,maxDate;
 int maxID,months,date;
@@ -33,7 +33,7 @@ Date lock_date,minDate;
 int addMonths,lockStatus;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+      response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
         session=request.getSession();
@@ -151,7 +151,7 @@ int addMonths,lockStatus;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(update_lockDate.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(checkLock.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -169,7 +169,7 @@ int addMonths,lockStatus;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(update_lockDate.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(checkLock.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 

@@ -70,7 +70,12 @@
          </li> 
          <li class='has-sub'><a href='rawData.jsp'><span>2. Raw Data</span></a></li>
          <li class='has-sub'><a href='kePMS.jsp'><span>3. KePMS Report</span></a></li>
-         <li class='has-sub'><a href='kePMSNotAchieved'><span>4. Clients not reached</span></a></li>
+         <li class='has-sub'><a href='#'><span>4. Other Reports.</span></a>
+         <ul>
+         <li class='has-sub'><a href='completed13Messages'><span>Attended 13 messages report.</span></a></li>
+         <li class='has-sub'><a href='clientsNotReached'><span>Clients not achieved report.</span></a></li>
+         </ul>
+         </li>
          
       </ul>
    </li> 
