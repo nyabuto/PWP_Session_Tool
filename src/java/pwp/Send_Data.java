@@ -33,18 +33,18 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class Send_Data {
-public String filenames,cu,dates,computername,senderofmail;
+public String filenames,cu,dates,computername,senderofmail,reportPath;
         
  String full_date;
     public Send_Data(){
     }  
- public boolean Sendattachment (String date,String path,String comp,String senderofemail,String mail,String county,String partner,String createdOn,String usermail)throws MessagingException {
+ public boolean Sendattachment (String date,String path,String comp,String senderofemail,String mail,String county,String partner,String createdOn,String usermail, String rpath)throws MessagingException {
      String toAddress="";
-     
+     reportPath=rpath;
       if(mail.contains("_")){
           mail=mail.replace("_", ",");
       }
-     System.out.println("sender of mail is  :  "+senderofemail);
+     System.out.println("sender of mail is  :  "+senderofemail+" report url is "+reportPath);
         filenames=path; 
         full_date=date;
         computername=comp;
@@ -82,7 +82,8 @@ public String filenames,cu,dates,computername,senderofmail;
         message.setSubject("PWP SQL DATA BACK_UP From : "+computername);
 
         BodyPart messageBodyPart = new MimeBodyPart();
-
+        BodyPart messageBodyPart2 = new MimeBodyPart();
+        
         messageBodyPart.setText(textBody);
 
         Multipart multipart = new MimeMultipart();
@@ -90,14 +91,21 @@ public String filenames,cu,dates,computername,senderofmail;
         multipart.addBodyPart(messageBodyPart);
 
         messageBodyPart = new MimeBodyPart();
-
+        messageBodyPart2 = new MimeBodyPart();
+        
         DataSource source = new FileDataSource(filename);
+        DataSource reportSource = new FileDataSource(reportPath);
 
         messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart2.setDataHandler(new DataHandler(reportSource));
 
         messageBodyPart.setFileName("PWP_V1_20_AUGUST_2015_"+county.trim()+"_"+partner.trim()+"_Data_"+createdOn.trim()+".sql");
+        messageBodyPart2.setFileName("PWP_V1_20_AUGUST_2015_"+county.trim()+"_"+partner.trim()+"_REPORT_"+createdOn.trim()+".xlsm");
+        
+        
         multipart.addBodyPart(messageBodyPart);
-
+        multipart.addBodyPart(messageBodyPart2);
+        
         message.setContent(multipart);
 
         try {

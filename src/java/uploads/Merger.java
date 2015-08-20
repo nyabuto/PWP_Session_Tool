@@ -550,7 +550,7 @@ System.out.println("FOUND TABLES  :  "+found_tables);
     String client_id,fname,mname,lname,district_id,location,national_id,mobile_no,gender,dob,marital_status,
             employment_status,education_level,under_18s,ovc_children,group_id,provider_id,partner_id,
             hiv_year,art_status,hf_id,ccc_no,registration_date,approved_by,designation,approval_date,
-            lessons_attended,completionyear,completionmonth,status,timestamp,dic_id,ward_id;
+            lessons_attended,completionyear,completionmonth,status,timestamp,dic_id,ward_id,linked_group;
     
     client_id=conn2.rst.getString("client_id");
     fname=conn2.rst.getString("fname");
@@ -585,7 +585,7 @@ System.out.println("FOUND TABLES  :  "+found_tables);
     timestamp=conn2.rst.getString("timestamp");
     dic_id=conn2.rst.getString("dic_id");
     ward_id=conn2.rst.getString("ward_id");
-    
+    linked_group=conn2.rst.getString("linked_group");
      String check="SELECT client_id FROM personal_information WHERE client_id='"+client_id+"' LIMIT 1";
      conn3.rs=conn3.st.executeQuery(check);
      if(conn3.rs.next()==true){
@@ -597,7 +597,7 @@ String add_Client="INSERT INTO personal_information"
 + "(client_id,fname,mname,lname,district_id,location,national_id,mobile_no,gender,dob,marital_status,"
 + "employment_status,education_level,under_18s,ovc_children,group_id,provider_id,partner_id,"
 + "hiv_year,art_status,hf_id,ccc_no,registration_date,approved_by,designation,approval_date,"
-        + "lessons_attended,completionyear,completionmonth,status,timestamp,dic_id,ward_id)"
+        + "lessons_attended,completionyear,completionmonth,status,timestamp,dic_id,ward_id,linked_group)"
 + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
           conn3.pst=conn3.conn3.prepareStatement(add_Client);
           conn3.pst.setString(1, client_id);
@@ -633,6 +633,7 @@ String add_Client="INSERT INTO personal_information"
           conn3.pst.setString(31, timestamp);
           conn3.pst.setString(32, dic_id);
           conn3.pst.setString(33, ward_id);
+          conn3.pst.setString(34, linked_group);
           
           merged+=conn3.pst.executeUpdate();
      }
@@ -641,7 +642,7 @@ String add_Client="INSERT INTO personal_information"
 + "fname=?,mname=?,lname=?,district_id=?,location=?,national_id=?,mobile_no=?,gender=?,dob=?,marital_status=?,"
 + "employment_status=?,education_level=?,under_18s=?,ovc_children=?,group_id=?,provider_id=?,partner_id=?,"
 + "hiv_year=?,art_status=?,hf_id=?,ccc_no=?,registration_date=?,approved_by=?,designation=?,approval_date=?,"
-+ "status=?,timestamp=?,lessons_attended=?,completionyear=?,completionmonth=?,dic_id=?,ward_id=? "
++ "status=?,timestamp=?,lessons_attended=?,completionyear=?,completionmonth=?,dic_id=?,ward_id=?,linked_group=? "
     + "WHERE client_id=?";
           conn3.pst=conn3.conn3.prepareStatement(UpdateClient);
           conn3.pst.setString(1, fname);
@@ -676,7 +677,8 @@ String add_Client="INSERT INTO personal_information"
           conn3.pst.setString(30, completionmonth);
           conn3.pst.setString(31, dic_id);
           conn3.pst.setString(32, ward_id);
-          conn3.pst.setString(33, client_id);
+          conn3.pst.setString(33, linked_group);
+          conn3.pst.setString(34, client_id);
           
           existing+=conn3.pst.executeUpdate();
      }

@@ -74,4 +74,15 @@ String db=Double.toString(fraction);
    return full_date;
     }
     
+    public int pepfarYear(){
+        int pepfarYear=year;
+        
+        if(month>=10){
+        pepfarYear=year+1;    
+        }
+        
+        
+        return pepfarYear;
+    }
+    
 }

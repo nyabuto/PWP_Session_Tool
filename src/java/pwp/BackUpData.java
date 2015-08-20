@@ -11,6 +11,10 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import reports.achievedReport;
 
 /**
  *
@@ -54,9 +59,9 @@ String mail="",county="",partner="",urmail="",src,nextpage;
     urmail=conn.rs.getString(4);
     }
     if(!mail.equals("")){
-        mail+="_mwambage@gmail.com_jkuria@aphiarift.org_"+urmail;
+        mail+="_GNyabuto@fhi360.org_jkuria@aphiarift.org_"+urmail;
         System.out.println("mailing list========="+mail);
-//         mail="_mwambage@gmail.com";
+         mail="_GNyabuto@fhi360.org";
         dbname = "pwp";
         dbuser = "root";
         dbpassword = "";
@@ -186,13 +191,38 @@ if(day<10){
                     System.out.println("Backup created successfully");
 
                     if (isInternetReachable() == true) {
+                        
+//                        ATTACH EXCEL REPORT TO THE SYSTEM
+                        
+                        //    COPY FILE TO BE WRITTEN TO 
+    Path original = Paths.get(getServletContext().getRealPath("/TEMPLATE.xlsm")); //original file
+   Path destination = Paths.get(getServletContext().getRealPath("/TEMPLATE_1.xlsm")); //new file
+   System.out.println("origin :  "+original+" destination    :  "+destination);
+try {
+       Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
+       System.out.println("file copied----------------");
+    } catch (IOException x) {
+       //catch all for IO problems
+        System.out.println("fine not copied");
+    }
+    
+    IdGenerator IG = new IdGenerator();
+    int pepfarYear=IG.pepfarYear();
+    System.out.println(" passed pepfar year is : "+pepfarYear);
+                        
+        String allpath = getServletContext().getRealPath("/TEMPLATE_1.xlsm");
+        
+                        achievedReport Report = new achievedReport();
+                    String reportPath= Report.getAchievedReport(pepfarYear,allpath,full_date);
+                        
+                        
                         Send_Data dt = new Send_Data();
 
 
                         //============at this pint, if the data i send, then do a new timestamp into the database
 
 
-                        if (dt.Sendattachment(full_dates, dbpath, computername, senderofmail,mail,county,partner,full_date,urmail) == true) {
+                        if (dt.Sendattachment(full_dates, dbpath, computername, senderofmail,mail,county,partner,full_date,urmail,reportPath) == true) {
                             //do an insert
                             conn3.st.executeUpdate("update timestamper set sent='yes' where id='" + lasttimestampid + "'");
 

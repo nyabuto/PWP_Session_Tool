@@ -14,6 +14,10 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,8 +29,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pwp.BackUpData;
+import pwp.IdGenerator;
 import pwp.Send_Data;
 import pwp.dbConn;
+import reports.achievedReport;
 
 /**
  *
@@ -194,12 +200,40 @@ if(day<10){
                 System.out.println("at 1 is " + processComplete);
                 if (processComplete == 0) {
                       if (isInternetReachable() == true) {
+                      
+                //                        ATTACH EXCEL REPORT TO THE SYSTEM
+                        
+                        //    COPY FILE TO BE WRITTEN TO 
+    Path original = Paths.get(getServletContext().getRealPath("/TEMPLATE.xlsm")); //original file
+   Path destination = Paths.get(getServletContext().getRealPath("/TEMPLATE_1.xlsm")); //new file
+   System.out.println("origin :  "+original+" destination    :  "+destination);
+try {
+       Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
+       System.out.println("file copied----------------");
+    } catch (IOException x) {
+       //catch all for IO problems
+        System.out.println("fine not copied");
+    }
+    
+    IdGenerator IG = new IdGenerator();
+    int pepfarYear=IG.pepfarYear();
+    System.out.println(" passed pepfar year is : "+pepfarYear);
+                        
+        String allpath = getServletContext().getRealPath("/TEMPLATE_1.xlsm");
+        
+                        achievedReport Report = new achievedReport();
+                    String reportPath= Report.getAchievedReport(pepfarYear,allpath,full_date);
+                        
+                        
                         Send_Data dt = new Send_Data();
 
 
                         //============at this pint, if the data i send, then do a new timestamp into the database
-if (dt.Sendattachment(full_dates, dbpath, computername, senderofmail,mail,county,partner,full_date,urmail) == true) {
+
+
+                        if (dt.Sendattachment(full_dates, dbpath, computername, senderofmail,mail,county,partner,full_date,urmail,reportPath) == true) {
                             //do an insert
+                                                   //do an insert
                             conn.st.executeUpdate("update timestamper set sent='yes' where id='" + lasttimestampid + "'");
 
 String daytime=""+year+"-"+month+"-"+day2;

@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import pwp.dbConn;
 
 /**
@@ -25,42 +26,15 @@ import pwp.dbConn;
 public class CurrentDate extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, InvalidFormatException {
         dbConn conn = new dbConn();
-        
-        
-        Date dt1 = new Date(2014, 3, 10);
-      Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String mdate;
-
-            Date mydate = new Date();
-            mdate = formatter.format(mydate);
-      
-         System.out.println("dt1 date  :   "+dt1);
-         System.out.println("current date  :   "+mydate);
-         
-         
-         
-         String get = "SELECT timestamp from topics";
-         conn.rs=conn.st.executeQuery(get);
-                 while(conn.rs.next()){
-                     
-                     System.out.println("date is    :  "+conn.rs.getString(1));
-                 }
-                 
-                 if(conn.rs!=null){conn.rs.close();}
-if(conn.st!=null){conn.st.close();}
-if(conn.rs1!=null){conn.rs1.close();}
-if(conn.st1!=null){conn.st1.close();}
-if(conn.rs2!=null){conn.rs2.close();}
-if(conn.st2!=null){conn.st2.close();}
-if(conn.st3!=null){conn.st3.close();}
-if(conn.pst!=null){conn.pst.close();}
-if(conn.pst!=null){conn.pst.close();}
-if(conn.pst1!=null){conn.pst1.close();}
-if(conn.pst1!=null){conn.pst1.close();}
-if(conn.conn!=null){conn.conn.close();}
-
+       
+        System.out.println("started creating report");
+        achievedReport Report = new achievedReport();
+        String path="C:\\Users\\Nyabuto Geofrey\\Documents\\NetBeansProjects\\PWP_Session_Tool\\build\\web\\TEMPLATE_1.xlsm";
+        String full_date="created_on_2015_08_19_23";
+        Report.getAchievedReport(2015, path,full_date);
+        System.out.println("ended creating report");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -80,6 +54,8 @@ if(conn.conn!=null){conn.conn.close();}
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(CurrentDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(CurrentDate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,6 +74,8 @@ if(conn.conn!=null){conn.conn.close();}
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(CurrentDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException ex) {
             Logger.getLogger(CurrentDate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

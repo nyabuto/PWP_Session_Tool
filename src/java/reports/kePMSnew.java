@@ -81,6 +81,7 @@ try {
     
         String allpath = getServletContext().getRealPath("/TEMPLATE_1.xlsm");
 
+        System.out.println("real path for template : "+allpath);
     //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
   XSSFWorkbook wb;
  OPCPackage pkg = OPCPackage.open(allpath);
