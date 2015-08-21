@@ -64,7 +64,7 @@ int days,maxid,foundClients,foundRegister;
           
           
           
-          if(days>=3){
+          if(days>=10){
 //             CHEK IF DATA HAS BEEN ENTERED=================================
               String checkClients="SELECT COUNT(client_id) FROM clients WHERE STR_TO_DATE(timestamp,'%Y-%m-%d')"
                       + "BETWEEN STR_TO_DATE('"+timestamp+"','%Y-%m-%d') AND STR_TO_DATE('"+today+"','%Y-%m-%d') ";

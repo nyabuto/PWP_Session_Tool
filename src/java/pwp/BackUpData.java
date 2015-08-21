@@ -61,11 +61,10 @@ String mail="",county="",partner="",urmail="",src,nextpage;
     if(!mail.equals("")){
         mail+="_GNyabuto@fhi360.org_jkuria@aphiarift.org_"+urmail;
         System.out.println("mailing list========="+mail);
-         mail="_GNyabuto@fhi360.org";
+//         mail="_GNyabuto@fhi360.org";
         dbname = "pwp";
         dbuser = "root";
         dbpassword = "";
-        String nextpage = "";
         found_folder = "";
 //MAKE A DIRECTORY TO STORE THE BACK_UP FILE.
 //        GET CURRENT DATE:
@@ -155,19 +154,17 @@ if(day<10){
 // CHECK WHICH PROGRAM IS INSTALLED TO ENSURE THAT DATA IS BACKED UP SUCCESSFULLY.             
 
                     if (f.exists() && f.isDirectory()) {
-                        executeCmd = current_drive + ":\\wamp\\mysql\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
+                        executeCmd = current_drive + ":\\wamp\\mysql\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct deletedclients --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
 //executeCmd = "C:\\wamp3\\bin\\mysql\\mysql5.6.12\\bin\\mysqldump --no-create-info --skip-add-drop-table --host=localhost --user="+dbuser+" --password="+dbpassword+" "+dbname+" audit enrollment childage clientmember clientoccupation clientoparea dummy medical_form riskassessmentdetails riskassessmentmain riskreductionmain riskreductiondetails user taskauditor --where=timestamp>='"+startdate+"' -r "+dbpath+"";
 
                         found_folder = "it is old wamp";
                     }
                     if (f1.exists() && f1.isDirectory()) {
-
-
-                        executeCmd = current_drive + ":\\wamp\\bin\\mysql\\mysql5.6.12\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
+                     executeCmd = current_drive + ":\\wamp\\bin\\mysql\\mysql5.6.12\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct deletedclients --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
                         found_folder = "it is new wamp";
                     }
                     if (f2.exists() && f2.isDirectory()) {
-                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
+                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct deletedclients --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
                         found_folder = "it is workbench";
                     }
                 } catch (SQLException ex) {
@@ -255,12 +252,8 @@ try {
     else{
       session.setAttribute("datasend", "<font color=\"red\">Backup Could not be created,Set M&E Mail.</font>");  
     }
-    if(src.equals("user")){
-      nextpage="ExportData.jsp";   
-    }
-    else{
-        nextpage="backupdata.jsp";
-    }
+   
+    nextpage=src;
     
     if(conn.rs!=null){conn.rs.close();}
 if(conn.st!=null){conn.st.close();}

@@ -43,31 +43,35 @@ import pwp.dbConn;
 
 /**
  *
- * @author Geofrey Nyabuto
+ * @author Nyabuto Geofrey
  */
-public class completed13Messages extends HttpServlet {
+public class notReached extends HttpServlet {
 HttpSession session;
-String groupName,DICName,districtName,partnerName,countyName,agebracket,month,year;
+String groupName,DICName,districtName,partnerName,countyName,agebracket,lessons_attended,year;
 String clientFname,clientMname,clientLname,clientFullName,ccc_no,mobile_no,gender,dob,marital_status,
         location,employment_status,education_level,under_18,ovc_children,hiv_year,art_status,
         registration_date,approved_by,designation,approval_date;
 String SPFname,SPMname,SPLname,SPFullName;
-String healthFacility;
+String healthFacility,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13;
 int position;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InvalidFormatException {
-       session=request.getSession();
+     session=request.getSession();
        dbConn conn = new dbConn();
        
        position=1;
        
      String  reportHeader [] =("COUNTY NAME ,PARTNER NAME,DISTRICT NAME, DIC NAME, GROUP NAME,CLIENT FULL NAME ,"
            +" CCC NO. , MOBILE NUMBER , GENDER , DATE OF BIRTH , MARITAL STATUS , EMPLOYMENT STATUS ,"
-           + "EDUCATION LEVEL , ART STATUS , SERVICE PROVIDER NAME , HEALTH FACILITY, YEAR, MONTH,AGE BRACKET").split(",");
+           + "EDUCATION LEVEL , ART STATUS , SERVICE PROVIDER NAME , HEALTH FACILITY, LESSONS ATTENDED,AGE BRACKET, Knowledge of HIV Status,"
+             + "Partner HIV Testing,Child HIV Testing,Discordance,HIV Disclosure,Risk Factor/Reduction,Condom Use,"
+             + "Alcohol and Substance Abuse,Adherence,STIs,Family Planning,PMTCT,TB").split(",");
        
-     //    COPY FILE TO BE WRITTEN TO 
-    Path original = Paths.get(getServletContext().getRealPath("/ALL_13_MESSAGES.xlsm")); //original file
-   Path destination = Paths.get(getServletContext().getRealPath("/ALL_13_MESSAGES_1.xlsm")); //new file
+     
+     
+      //    COPY FILE TO BE WRITTEN TO 
+    Path original = Paths.get(getServletContext().getRealPath("/NOT_ACHIEVED_TEMPLATE.xlsm")); //original file
+   Path destination = Paths.get(getServletContext().getRealPath("/NOT_ACHIEVED_TEMPLATE_1.xlsm")); //new file
    System.out.println("origin :  "+original+" destination    :  "+destination);
 try {
        Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
@@ -78,7 +82,7 @@ try {
     }
     
     
-        String allpath = getServletContext().getRealPath("/ALL_13_MESSAGES_1.xlsm");
+        String allpath = getServletContext().getRealPath("/NOT_ACHIEVED_TEMPLATE_1.xlsm");
 
     //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
   XSSFWorkbook wb;
@@ -87,9 +91,10 @@ try {
 wb = new XSSFWorkbook(pkg);
         
 
+
      //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
 //   HSSFWorkbook wb=new HSSFWorkbook();
-   XSSFSheet shet1=wb.getSheet("Sheet1");
+ XSSFSheet shet1=wb.getSheet("Sheet1");
   XSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
     font.setFontName("Arial Black");
@@ -154,20 +159,7 @@ stylex.setWrapText(true);
        + "personal_information.dob,marital_status.name,employment_status.name,education_levels.name,"
        + "art_status.name,"
        + "service_provider.fname,service_provider.mname,service_provider.lname,health_facility.hf_name, "
-            + "CASE " +
-"when personal_information.completionmonth =01 THEN 'JAN' " +
-"when personal_information.completionmonth =02 THEN 'FEB' " +
-"when personal_information.completionmonth =03 THEN 'MAR' " +
-"when personal_information.completionmonth=04 THEN 'APR' " +
-"when personal_information.completionmonth=05 THEN 'MAY' " +
-"when personal_information.completionmonth=06 THEN 'JUN' " +
-"when personal_information.completionmonth=07 THEN 'JUL' " +
-"when personal_information.completionmonth=08 THEN 'AUG' " +
-"when personal_information.completionmonth=09 THEN 'SEPT' " +
-"when personal_information.completionmonth=10 THEN 'OCT' " +
-"when personal_information.completionmonth=11 THEN 'NOV'" +
-"when personal_information.completionmonth=12 THEN 'DEC'" +
-"END AS MONTHS,personal_information.completionyear,"
+            + "personal_information.lessons_attended,"
               + "CASE" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 0 AND 9 THEN '0-9'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 10 AND 14 THEN '10-14'" +
@@ -181,7 +173,7 @@ stylex.setWrapText(true);
 "when personal_information.gender LIKE 'Female' THEN 'F' " +
 "when personal_information.gender LIKE 'Male' THEN 'M' " +
 "ELSE 'NO SEX' " +
-"END AS SEX "
+"END AS SEX,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13 "
               + " FROM personal_information "
               + " LEFT JOIN groups ON personal_information.group_id=groups.group_id "
               + " LEFT JOIN dic ON personal_information.dic_id=dic.dic_id "
@@ -193,29 +185,32 @@ stylex.setWrapText(true);
               + " LEFT JOIN employment_status ON personal_information.employment_status=employment_status.id "
               + " LEFT JOIN education_levels ON personal_information.education_level=education_levels.id "
               + " LEFT JOIN art_status ON personal_information.art_status=art_status.id "
+              + " LEFT JOIN register ON personal_information.client_id=register.client_id "
               
                + " LEFT JOIN partner ON personal_information.partner_id=partner.partner_id "
               + " LEFT JOIN county ON district.county_id=county.county_id "
                
-              + " WHERE personal_information.lessons_attended=13 "
+              + " WHERE (personal_information.completionmonth=0 || personal_information.completionyear=0) "
               + " ORDER BY partner.partner_name,county.county_name,district.district_name,dic.dic_name,"
-       +"groups.group_name,personal_information.completionyear,MONTHS ";
+       +"groups.group_name";
       conn.rs=conn.st.executeQuery(getClients);
       while(conn.rs.next()){
 //     ADD THE DATA TO EXCEL HERE 
-    groupName=DICName=districtName=partnerName=countyName=agebracket=month=year="";
+    groupName=DICName=districtName=partnerName=countyName=agebracket=lessons_attended=year="";
     clientFname=clientMname=clientLname=ccc_no=mobile_no=gender=dob=marital_status="";
     location=employment_status=education_level=under_18=ovc_children=hiv_year=art_status="";
     registration_date=approved_by=designation=approval_date="";
     SPFname=SPMname=SPLname=SPFullName=healthFacility="";   
-    
+    s1=s2=s3=s4=s5=s6=s7=s8=s9=s10=s11=s12=s13="";
     if(conn.rs.getString(1)!=null){countyName=conn.rs.getString(1);}
     if(conn.rs.getString(2)!=null){partnerName=conn.rs.getString(2);}
     if(conn.rs.getString(3)!=null){districtName=conn.rs.getString(3);}
     if(conn.rs.getString(4)!=null){DICName=conn.rs.getString(4);}
     else{DICName="NO DIC";}
+    
     if(conn.rs.getString(5)!=null){groupName=conn.rs.getString(5);}
     else{groupName="Individual";}
+    
     if(conn.rs.getString(6)!=null){clientFname=conn.rs.getString(6);}
     if(conn.rs.getString(7)!=null){clientMname=conn.rs.getString(7);}
     if(conn.rs.getString(8)!=null){clientLname=conn.rs.getString(8);}
@@ -231,10 +226,37 @@ stylex.setWrapText(true);
     if(conn.rs.getString(18)!=null){SPMname=conn.rs.getString(18);}
     if(conn.rs.getString(19)!=null){SPLname=conn.rs.getString(19);}
     if(conn.rs.getString(20)!=null){healthFacility=conn.rs.getString(20);}
-    if(conn.rs.getString(21)!=null){month=conn.rs.getString(21);}
-    if(conn.rs.getString(22)!=null){year=conn.rs.getString(22);}
-    if(conn.rs.getString(23)!=null){agebracket=conn.rs.getString(23);}
-    if(conn.rs.getString(24)!=null){gender=conn.rs.getString(24);}
+    if(conn.rs.getString(21)!=null){lessons_attended=conn.rs.getString(21);}
+    if(conn.rs.getString(22)!=null){agebracket=conn.rs.getString(22);}
+    if(conn.rs.getString(23)!=null){gender=conn.rs.getString(23);}
+    
+    if(conn.rs.getString(24)!=null){s1=conn.rs.getString(24);}
+    if(conn.rs.getString(25)!=null){s2=conn.rs.getString(25);}
+    if(conn.rs.getString(26)!=null){s3=conn.rs.getString(26);}
+    if(conn.rs.getString(27)!=null){s4=conn.rs.getString(27);}
+    if(conn.rs.getString(28)!=null){s5=conn.rs.getString(28);}
+    if(conn.rs.getString(29)!=null){s6=conn.rs.getString(29);}
+    if(conn.rs.getString(30)!=null){s7=conn.rs.getString(30);}
+    if(conn.rs.getString(31)!=null){s8=conn.rs.getString(31);}
+    if(conn.rs.getString(32)!=null){s9=conn.rs.getString(32);}
+    if(conn.rs.getString(33)!=null){s10=conn.rs.getString(33);}
+    if(conn.rs.getString(34)!=null){s11=conn.rs.getString(34);}
+    if(conn.rs.getString(35)!=null){s12=conn.rs.getString(35);}
+    if(conn.rs.getString(36)!=null){s13=conn.rs.getString(36);}
+    
+    if(s1.equals("5")){s1="";}if(s1.equals("2")){s1="0";}
+    if(s2.equals("5")){s2="";}if(s2.equals("2")){s2="0";}
+    if(s3.equals("5")){s3="";}if(s3.equals("2")){s3="0";}
+    if(s4.equals("5")){s4="";}if(s4.equals("2")){s4="0";}
+    if(s5.equals("5")){s5="";}if(s5.equals("2")){s5="0";}
+    if(s6.equals("5")){s6="";}if(s6.equals("2")){s6="0";}
+    if(s7.equals("5")){s7="";}if(s7.equals("2")){s7="0";}
+    if(s8.equals("5")){s8="";}if(s8.equals("2")){s8="0";}
+    if(s9.equals("5")){s9="";}if(s9.equals("2")){s9="0";}
+    if(s10.equals("5")){s10="";}if(s10.equals("2")){s10="0";}
+    if(s11.equals("5")){s11="";}if(s11.equals("2")){s11="0";}
+    if(s12.equals("5")){s12="";}if(s12.equals("2")){s12="0";}
+    if(s13.equals("5")){s13="";}if(s13.equals("2")){s13="0";}
     
     if(clientMname.equals(clientLname)){clientMname="";}
    
@@ -245,23 +267,29 @@ stylex.setWrapText(true);
    
    String rawData []=(countyName+","+partnerName+","+districtName+","+DICName+","+groupName+","+clientFullName
            +","+ccc_no+","+mobile_no+","+gender+","+dob+","+marital_status+","+employment_status+","+
-           education_level+","+art_status+","+SPFullName+","+healthFacility+","+year+","+month+","+agebracket).split(",");
+           education_level+","+art_status+","+SPFullName+","+healthFacility+","+lessons_attended+","+agebracket+","+
+           s1+","+s2+","+s3+","+s4+","+s5+","+s6+","+s7+","+s8+","+s9+","+s10+","+s11+","+s12+","+s13).split(",");
    
    
     XSSFRow rw1=shet1.createRow(position);
     rw1.setHeightInPoints(25);
     rw1.setRowStyle(style2);
     
-    for(int i=0;i<=(rawData.length-1);i++){
+    for(int i=0;i<=(reportHeader.length-1);i++){
     cell=rw1.createCell(i);
-    cell.setCellValue(rawData[i]);
     cell.setCellStyle(styleBorder);
+    }
+    
+    for(int i=0;i<=(rawData.length-1);i++){
+    cell=rw1.getCell(i);
+    cell.setCellValue(rawData[i]);
     }
     
     position++;
       }
       
      
+        
           IdGenerator CRT = new IdGenerator();
       ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
@@ -269,12 +297,12 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=PWP_ATTENDED_13_SESSIONS_REPORT_CREATED_ON_"+CRT.timestamp()+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=PWP_CLIENTS_NOT_REACHED_REPORT_CREATED_ON_"+CRT.timestamp()+".xlsm");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
 
-pkg.close();  
+pkg.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -292,9 +320,9 @@ pkg.close();
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(completed13Messages.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(notReached.class.getName()).log(Level.SEVERE, null, ex);
     } catch (InvalidFormatException ex) {
-        Logger.getLogger(completed13Messages.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(notReached.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -312,9 +340,9 @@ pkg.close();
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(completed13Messages.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(notReached.class.getName()).log(Level.SEVERE, null, ex);
     } catch (InvalidFormatException ex) {
-        Logger.getLogger(completed13Messages.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(notReached.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 

@@ -1021,7 +1021,7 @@ $(document).ready(function(){
             </tr>
             
             <tr id="receive_message">
-            <td>How does this client receive messages? </td>
+            <td><b>How does this client receive messages?</b> </td>
            <td><select name="client_messages" id="client_messages" required class="textbox2" title="Click to choose if the client receives messages either in a group or as individual." style="border-color: green; width:300px;">
                    <option value=""></option>
                    <option value="yes">Receive message in a group.</option>

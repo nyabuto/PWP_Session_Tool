@@ -277,16 +277,22 @@ System.out.println("process started"+runtimeProcess);
                  session.removeAttribute("mergerdone");
                   session.setAttribute("mergerdone", "90% Done.");
                  
-                String notification=client+""+personalInfo+""+group+""+register+""+serviceprovider+""+servicesprovided+""+sessioner+""+register2+""+preventionMess;
+                   int deleteDuplicate =merger.deleteClients();
+                 session.removeAttribute("mergerdone");
+                  session.setAttribute("mergerdone", "95% Done.");
+                  
+                  String duplicates=deleteDuplicate+" <font color=\"red\"> duplicates were deleted by partner.</font><br>";
+                  
+                String notification=client+""+personalInfo+""+group+""+register+""+serviceprovider+""+servicesprovided+""+sessioner+""+register2+""+preventionMess+""+duplicates;
                  
                  
                 System.out.println("Import completed successfully");
-           String updateSyncer="INSERT INTO syncdate (date) VALUES(?)";
-           conn.pst=conn.conn.prepareStatement(updateSyncer);
-           conn.pst.setString(1, IG.toDay());
-           conn.pst.execute();
+//           String updateSyncer="INSERT INTO syncdate (date) VALUES(?)";
+//           conn.pst=conn.conn.prepareStatement(updateSyncer);
+//           conn.pst.setString(1, IG.toDay());
+//           conn.pst.execute();
               
-           session.setAttribute("mergerdone", "95% Done.");
+           session.setAttribute("mergerdone", "98% Done.");
              session.setAttribute("mergerdone", "100% Done."); 
                 session.setAttribute("datasend1", "<font color=\"green\">Data has been imported successfully: </font><br> "+notification+" <br>");
                 session.setAttribute("saved_success", "success"); 

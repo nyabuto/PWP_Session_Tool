@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import pwp.IdGenerator;
 import pwp.dbConn;
 
 /**
@@ -33,14 +34,17 @@ String id;
        id=request.getParameter("id");
        System.out.println("called ACTION DELETE : "+id);
 //          DELETE FROM REGISTER2==============================
-       
+        IdGenerator IG = new IdGenerator();
+        String today=IG.toDay();
+        
+        
       String getReg2="SELECT * FROM register2 WHERE client_id='"+id+"'";
      
       conn.rs=conn.st.executeQuery(getReg2);
       while(conn.rs.next()){
          String insertReg2="INSERT INTO deletedregister2 (reg_id,client_id,session_no,value,date,datekey,month,year,timestamp) VALUES (?,?,?,?,?,?,?,?,?)";
          conn.pst=conn.conn.prepareStatement(insertReg2);
-         
+         System.out.println("deleted clients reg : "+conn.rs.getString(1));
            conn.pst.setString(1, conn.rs.getString(1));
            conn.pst.setString(2, conn.rs.getString(2));
            conn.pst.setString(3, conn.rs.getString(3));
@@ -49,8 +53,8 @@ String id;
            conn.pst.setString(6, conn.rs.getString(6));
            conn.pst.setString(7, conn.rs.getString(7));
            conn.pst.setString(8, conn.rs.getString(8));
-           conn.pst.setString(9, conn.rs.getString(9));
-           
+           conn.pst.setString(9, today);
+           System.out.println("deleted clients reg d : "+conn.rs.getString(9));
            conn.pst.executeUpdate();
       }
       String deleteregister2="DELETE FROM register2 WHERE client_id='"+id+"'";
@@ -79,7 +83,7 @@ String id;
            conn.pst.setString(13, conn.rs.getString(13));
            conn.pst.setString(14, conn.rs.getString(14));
            conn.pst.setString(15, conn.rs.getString(15));
-           conn.pst.setString(16, conn.rs.getString(16));
+           conn.pst.setString(16, today);
 //           conn.pst.setString(17, conn.rs.getString(17));
            conn.pst.executeUpdate();
        }
@@ -113,7 +117,7 @@ String id;
            conn.pst.setString(14, conn.rs.getString(14));
            conn.pst.setString(15, conn.rs.getString(15));
            conn.pst.setString(16, conn.rs.getString(16));
-           conn.pst.setString(17, conn.rs.getString(17));
+           conn.pst.setString(17, today);
            conn.pst.setString(18, conn.rs.getString(18));
 //           conn.pst.setString(19, conn.rs.getString(19));
           conn.pst.executeUpdate();
@@ -143,14 +147,18 @@ String id;
            conn.pst.setString(12, conn.rs.getString(12));
            conn.pst.setString(13, "0");
            conn.pst.setString(14, conn.rs.getString(14));
-           conn.pst.setString(15, conn.rs.getString(15));
+           conn.pst.setString(15, today);
 //           conn.pst.setString(16, conn.rs.getString(17));
            conn.pst.setString(16, conn.rs.getString(16));
            conn.pst.setString(17, conn.rs.getString(17));
           conn.pst.executeUpdate();
+          
+          System.out.println("deleted client and added his details to mirror db....");
            }    
        String deleteClient="DELETE FROM personal_information WHERE client_id='"+id+"'";
      int checkerDeleter=conn.st.executeUpdate(deleteClient);
+     
+     
      if(checkerDeleter>0){
        System.out.println("client deleted successfully.............................");
      }

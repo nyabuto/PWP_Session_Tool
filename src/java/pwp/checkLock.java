@@ -104,6 +104,7 @@ int addMonths,lockStatus;
         calMinDate.setTime(minDate);
         calMinDate.add(Calendar.MONTH, addMonths); //minus number would decrement the days
         
+        System.out.println("lock date : "+lock_date+" min date : "+minDate);
         
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
       newLockDate = formatter.format(calLockDate.getTime());

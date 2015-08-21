@@ -129,12 +129,12 @@ $("#network").val("");
       if(ifdata.trim()==="available"){
  if(network==="available"){
     $("#backupNotifier").show(); 
-   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br> 1. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> 2. Create data back up.<br><br>")  ;
+   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br> Step 1. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> Step 2. Create data back up.<br><br>")  ;
  $("#form").hide();
                 }
                 else{
     $("#backupNotifier").show(); 
-   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br>1. Please connect to the internet.<br><br> 2. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> 3. Create data back up.<br><br>")  ;
+   $("#backupNotifier").html("<font color=\"red\"><b>Sorry:</b> You have not created data back up hence no access to the system.</font><br><br> Follow these steps to back up your data. <br><br> Step 1. Please connect to the internet.<br><br> Step 2. Click <a href=\"ExportData.jsp\">here to access data back up module</a>.<br><br> Step 3. Create data back up.<br><br>")  ;
  $("#form").hide();
                 }
 }
@@ -185,7 +185,7 @@ setInterval(function(){update();}, 100);
 }
        </script>
     </head>
-    <body onload="checker();loaderDataConnection();">
+    <body onload="checker();loaderDataConnection();BrowserChecker();">
         <div id="container" style=" height: auto;">
 <div id="header">
                 <div class="ui-widget" style="width:1200px; margin-left: -140px;" >

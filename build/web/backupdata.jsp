@@ -153,6 +153,7 @@
 $("#send").prop("disabled",true);
 $("#send").val("Error : No internet !");
 $("#send").css("color","black");
+$("#send").css("font-size","30px");
 $("#send").css("background","red");
        }
        else{
@@ -160,6 +161,7 @@ $("#send").css("background","red");
 $("#send").val("Create Back up");
 $("#send").css("background","white");
 $("#send").css("color","black");
+$("#send").css("font-size","30px");
 $("#send").removeAttr("disabled");
        }
     }
@@ -261,10 +263,11 @@ After creating data back up, Click <a href="index.jsp">here to Log in</a> and ac
               </form>
               <p id="connections">Checking for internet connections...</p>
             
-                    <form action="BackUpData" method="post" style="height:90px;">
+                    <form action="BackUpData" method="post" style="height:auto;">
                         <br/>
-                        <input type="hidden" name="src" value="user">
-                       <input type="submit" id="send" value="Checking ..." disabled="true" class="tooltip" style="height:50px;" >
+                        <input type="hidden" name="src" value="backupdata.jsp">
+                       <input type="submit" id="send" value="Checking ..." disabled="true" class="tooltip" style="height:80px;width:300px;" >
+                   <br><br>
                     </form>
               
               <p id="notifier" hidden="true"><font color="red" style="text-align:center;"><b>Before Creating any data back up ensure :</b></font> <br>

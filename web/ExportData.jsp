@@ -157,6 +157,7 @@
 $("#send").prop("disabled",true);
 $("#send").val("Error : No internet !");
 $("#send").css("color","black");
+$("#send").css("font-size","30px");
 $("#send").css("background","red");
        }
        else{
@@ -164,6 +165,7 @@ $("#send").css("background","red");
 $("#send").val("Create Back up");
 $("#send").css("background","white");
 $("#send").css("color","black");
+$("#send").css("font-size","30px");
 $("#send").removeAttr("disabled");
        }
       }
@@ -269,8 +271,9 @@ After creating data back up, Click <a href="index.jsp">here to Log in</a> and ac
                     -->
                     <form action="BackUpData" method="post" style="height: auto;">
                         <br/>
-                          <input type="submit" id="send" value="Checking ..." disabled="true" class="tooltip" style="height:50px;" >
-                   <input type="hidden" name="src" value="user"><br><br>
+                          <input type="submit" id="send" value="Checking ..." disabled="true" class="tooltip" style="height:70px; width:300px;" >
+                   <input type="hidden" name="src" value="ExportData.jsp"><br><br>
+                   <br>
                     </form>
                 </div>
             </div>

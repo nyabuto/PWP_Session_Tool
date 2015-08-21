@@ -1052,5 +1052,39 @@ return data;
    
     return data;
     }
+      
+      
+      public int deleteClients() throws SQLException{
+          String client_id="",assessmentId="";
+          int totalDeleted=0;
+          
+          String getDeleted="SELECT * FROM deletedclients";
+          conn2.rst=conn2.stt.executeQuery(getDeleted);
+          while(conn2.rst.next()){
+            client_id=conn2.rst.getString("client_id");
+            
+            System.out.println("to delete client : "+client_id);
+            
+          conn3.st.executeUpdate("DELETE FROM adherence WHERE client_id='"+client_id+"'");    
+          totalDeleted+=conn3.st.executeUpdate("DELETE FROM personal_information WHERE client_id='"+client_id+"'");
+          conn3.st.executeUpdate("DELETE FROM register WHERE client_id='"+client_id+"'");
+          conn3.st.executeUpdate("DELETE FROM register2 WHERE client_id='"+client_id+"'");
+          conn3.st.executeUpdate("DELETE FROM services_provided WHERE client_id='"+client_id+"'");
+          
+          
+          String getAssess="SELECT id FROM prevention_messages  WHERE client_id='"+client_id+"'";
+          conn3.rs=conn3.st.executeQuery(getAssess);
+          if(conn3.rs.next()==true){
+          assessmentId=conn3.rs.getString(1);
+          conn3.st1.executeUpdate("DELETE FROM prevention_counseling WHERE id='"+assessmentId+"'");
+          conn3.st1.executeUpdate("DELETE FROM hiv_testing_stis WHERE id='"+assessmentId+"'");
+          conn3.st1.executeUpdate("DELETE FROM family_planning_tb_pmtct WHERE id='"+assessmentId+"'");     
+          }
+          conn3.st.executeUpdate("DELETE FROM prevention_messages WHERE client_id='"+client_id+"'");
+          
+          }
+       
+          return totalDeleted;
+      }
 }
 

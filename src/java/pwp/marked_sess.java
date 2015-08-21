@@ -80,7 +80,7 @@ String message_selector="SELECT * FROM message_codes WHERE message_id="+i+"";
 conn.rs1=conn.st1.executeQuery(message_selector);
 if(conn.rs1.next()==true){
     System.out.println("unmarked : "+foundUnmarked+" total clients : "+markedClients);
-    if((foundUnmarked>0 || markedClients<allClients) && markedClients>0 && i!=9){
+    if((foundUnmarked>0 || markedClients<allClients) && markedClients>0 ){
       sessions+="<option value=\""+i+"\">  *  "+i+". "+conn.rs1.getString(2)+"</option>";
       added++;
       got++;

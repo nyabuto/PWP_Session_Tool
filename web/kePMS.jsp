@@ -209,10 +209,10 @@
 
 <tr> <td class="align_button_right" style=" font-size: 18px;">Select Report Type<font color="red">*</font></td>
     <td>  
-    <select name="nextpage" id="nextpage" style="width:250px;" required class="textbox2">
+    <select name="nextpage" id="nextpage" style="width:450px;" required class="textbox2">
         <option value="">Choose report type</option>
-        <option value="achieved">Clients Reached Report</option>
-        <option value="Reached_OthersMessages">Clients Reached with Other Messages</option>
+        <option value="achieved">Clients Reached Report(New reached clients with minimum package)</option>
+        <option value="Reached_OthersMessages">Clients Reached with Other Messages (Already reached with minimum package)</option>
         <option value="services">Services Provided Report</option>
 
     </select>  
@@ -221,7 +221,7 @@
  
 <tr> <td class="align_button_right" style=" font-size: 18px;">Choose Pepfar Year<font color="red">*</font></td>
     <td>  
-    <select name="year" id="year" required style="width:250px;" class="textbox2">
+    <select name="year" id="year" required style="width:450px;" class="textbox2">
         <option value="">Choose Year </option>
         <option value="2014">2014</option>
         <option value="2015">2015</option>
@@ -231,7 +231,7 @@
 
 <tr id="perioder"> <td class="align_button_right" style=" font-size: 18px;">Choose Period<font color="red">*</font></td>
     <td>  
-    <select name="period" id="period" style="width:250px;" class="textbox2">
+    <select name="period" id="period" style="width:450px;" class="textbox2">
         <option value="">Choose period </option>
 
     </select>  
@@ -240,7 +240,7 @@
 
 <tr id="achieved1"> <td class="align_button_right" style=" font-size: 18px;">Client reached Report<font color="red">*</font></td>
     <td>  
-    <select name="nextpage1" id="nextpage1" style="width:250px;" required class="textbox2">
+    <select name="nextpage1" id="nextpage1" style="width:450px;" required class="textbox2">
         <option value="">Choose report type</option>
         <option value="kePMSnew">Clients reached per Partner</option>
         <option value="kePMSCounty">Clients reached per Partner</option>
@@ -252,7 +252,7 @@
 
 <tr id="services1"> <td class="align_button_right" style=" font-size: 18px;">Services provided Report: <font color="red">*</font></td>
     <td>  
-    <select name="nextpage2" id="nextpage2" style="width:250px;" required class="textbox2">
+    <select name="nextpage2" id="nextpage2" style="width:450px;" required class="textbox2">
         <option value="">Choose report</option>
         <option value="kePMSServices">Services Provided per Partner</option>
         <option value="kePMSDICServices">Services Provided per DIC</option>
@@ -263,7 +263,7 @@
 
 <tr id="reporter"> <td  class="align_button_right" style=" font-size: 18px;">Select Partner<font color="red">*</font></td>
     <td>  
-    <select name="partner" id="partner" style="width:250px;" required class="textbox2">
+    <select name="partner" id="partner" style="width:450px;" required class="textbox2">
         <option value="">Choose Partner </option>
     </select>  
     </td>
