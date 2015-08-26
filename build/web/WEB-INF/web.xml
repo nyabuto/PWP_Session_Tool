@@ -862,10 +862,6 @@
         <servlet-class>reports.completed13Messages</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>clientsNotReached</servlet-name>
-        <servlet-class>reports.clientsNotReached</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Reached_OthersMessages</servlet-name>
         <servlet-class>reports.Reached_OthersMessages</servlet-class>
     </servlet>
@@ -876,6 +872,14 @@
     <servlet>
         <servlet-name>notReached</servlet-name>
         <servlet-class>reports.notReached</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>clientsNotReached</servlet-name>
+        <servlet-class>reports.clientsNotReached</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>otherReportsDecider</servlet-name>
+        <servlet-class>reports.otherReportsDecider</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>add_clerk</servlet-name>
@@ -1738,10 +1742,6 @@
         <url-pattern>/completed13Messages</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>clientsNotReached</servlet-name>
-        <url-pattern>/clientsNotReached</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Reached_OthersMessages</servlet-name>
         <url-pattern>/Reached_OthersMessages</url-pattern>
     </servlet-mapping>
@@ -1752,6 +1752,10 @@
     <servlet-mapping>
         <servlet-name>notReached</servlet-name>
         <url-pattern>/notReached</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>otherReportsDecider</servlet-name>
+        <url-pattern>/otherReportsDecider</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>900000</session-timeout>
