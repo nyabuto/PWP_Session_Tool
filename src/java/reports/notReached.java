@@ -31,7 +31,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -85,30 +90,30 @@ try {
         String allpath = getServletContext().getRealPath("/NOT_ACHIEVED_TEMPLATE_1.xlsm");
 
     //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
-  XSSFWorkbook wb;
+  XSSFWorkbook wb1;
  OPCPackage pkg = OPCPackage.open(allpath);
  
-wb = new XSSFWorkbook(pkg);
+wb1 = new XSSFWorkbook(pkg);
         
-
+        SXSSFWorkbook wb = new SXSSFWorkbook(wb1, 100);
 
      //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
 //   HSSFWorkbook wb=new HSSFWorkbook();
- XSSFSheet shet1=wb.getSheet("Sheet1");
-  XSSFFont font=wb.createFont();
+ Sheet shet1=wb.getSheet("Sheet1");
+ Font font=wb.createFont();
  font.setFontHeightInPoints((short)18);
     font.setFontName("Arial Black");
     font.setColor((short)0000);
     CellStyle style=wb.createCellStyle();
     style.setFont(font);
     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-     XSSFFont font2=wb.createFont();
+     Font font2=wb.createFont();
     font2.setFontName("Arial Black");
     font2.setColor((short)0000);
     CellStyle style2=wb.createCellStyle();
     style2.setFont(font2);
    
-   XSSFCellStyle stborder = wb.createCellStyle();
+   CellStyle stborder = wb.createCellStyle();
     stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
@@ -120,14 +125,14 @@ wb = new XSSFWorkbook(pkg);
     shet1.setColumnWidth(i, 4000);     
     }
     
-    XSSFCellStyle styleBorder=wb.createCellStyle();
+    CellStyle styleBorder=wb.createCellStyle();
     styleBorder.setBorderTop(HSSFCellStyle.BORDER_THIN);
     styleBorder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     styleBorder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
     styleBorder.setBorderRight(HSSFCellStyle.BORDER_THIN);
     styleBorder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-      XSSFCellStyle stylex = wb.createCellStyle();
+      CellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.LIME.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -136,13 +141,13 @@ stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
     stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-XSSFFont fontx = wb.createFont();
+Font fontx = wb.createFont();
 fontx.setColor(HSSFColor.DARK_BLUE.index);
 stylex.setFont(fontx);
 stylex.setWrapText(true);
 
-  XSSFCell cell;
-   XSSFRow rw0=shet1.createRow(0);
+  Cell cell;
+   Row rw0=shet1.createRow(0);
     rw0.setHeightInPoints(30);
     rw0.setRowStyle(style2);
     
@@ -193,6 +198,7 @@ stylex.setWrapText(true);
               + " WHERE (personal_information.completionmonth=0 || personal_information.completionyear=0) "
               + " ORDER BY partner.partner_name,county.county_name,district.district_name,dic.dic_name,"
        +"groups.group_name";
+        System.out.println("query is : "+getClients);
       conn.rs=conn.st.executeQuery(getClients);
       while(conn.rs.next()){
 //     ADD THE DATA TO EXCEL HERE 
@@ -271,7 +277,7 @@ stylex.setWrapText(true);
            s1+","+s2+","+s3+","+s4+","+s5+","+s6+","+s7+","+s8+","+s9+","+s10+","+s11+","+s12+","+s13).split(",");
    
    
-    XSSFRow rw1=shet1.createRow(position);
+    Row rw1=shet1.createRow(position);
     rw1.setHeightInPoints(25);
     rw1.setRowStyle(style2);
     
@@ -286,6 +292,7 @@ stylex.setWrapText(true);
     }
     
     position++;
+    System.out.println("at position : "+position);
       }
       
      
